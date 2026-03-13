@@ -76,7 +76,7 @@ export default function ChartAnalyzer() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+        model: "claude-opus-4-5",
           max_tokens: 1000,
           messages: [{
             role: "user",
