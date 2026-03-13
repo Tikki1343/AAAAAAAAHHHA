@@ -92,9 +92,7 @@ export default function ChartAnalyzer() {
       const clean = text.replace(/```json|```/g, "").trim();
       const parsed = JSON.parse(clean);
       setResult(parsed);
-    } catch (e) {
-      setError("エラー: " + e.message);
-    }
+   setError("エラー: " + e.message);
     } finally {
       setAnalyzing(false);
     }
