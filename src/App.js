@@ -93,7 +93,8 @@ export default function ChartAnalyzer() {
       const parsed = JSON.parse(clean);
       setResult(parsed);
     } catch (e) {
-      setError("分析に失敗しました。もう一度試してみて！");
+      setError("エラー: " + e.message);
+    }
     } finally {
       setAnalyzing(false);
     }
