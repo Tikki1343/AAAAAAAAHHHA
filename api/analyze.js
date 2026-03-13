@@ -4,6 +4,13 @@ export default async function handler(req, res) {
   }
 
   try {
+    const chunks = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
+    }
+    const bodyText = Buffer.concat(chunks).toString();
+    const body = JSON.parse(bodyText);
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -11,12 +18,12 @@ export default async function handler(req, res) {
         'x-api-key': process.env.ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(body),
     });
 
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (error) {
-    return res.status(500).json({ error: 'API request failed' });
+    return res.status(500).json({ error: error.message });
   }
 }
