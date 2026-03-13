@@ -87,11 +87,19 @@ export default function ChartAnalyzer() {
           }]
         })
       });
-      const data = await response.json();
-      const text = data.content?.[0]?.text || "";
-      const clean = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
-      setResult(parsed);
+     const data = await response.json();
+if (data.error) {
+  setError("APIエラー: " + JSON.stringify(data.error));
+  return;
+}
+const text = data.content?.[0]?.text || "";
+if (!text) {
+  setError("レスポンスが空です: " + JSON.stringify(data));
+  return;
+}
+const clean = text.replace(/```json|```/g, "").trim();
+const parsed = JSON.parse(clean);
+setResult(parsed); 
    setError("エラー: " + e.message);
     } finally {
       setAnalyzing(false);
